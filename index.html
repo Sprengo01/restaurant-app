@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Restaurants">
+<meta name="theme-color" content="#FFFDF2">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Restaurant App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+@font-face{font-family:Norwester;src:url(Norwester.otf) format("opentype")}
+:root{--c:#FFFDF2;--g:#2C444C;--g2:#587880;--g3:#A8BCC0;--g4:#E6ECED;--t:#000}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--c);color:var(--t);font-family:Norwester,"Arial Narrow",sans-serif;letter-spacing:.03em}
+main{padding:calc(env(safe-area-inset-top) + 18px) 18px calc(120px + env(safe-area-inset-bottom));max-width:640px;margin:auto}
+h1{font-size:34px;line-height:1.05;margin:8px 0 6px;font-weight:400}
+h2{font-size:22px;margin:0;font-weight:400}
+small,.mut{color:var(--g2);font-size:14px}
+.sub{color:var(--g2);margin:0 0 16px}
+input,select,button{font:inherit;font-size:16px;color:var(--t);letter-spacing:inherit}
+input,select{width:100%;padding:12px 14px;border:1.5px solid var(--g3);border-radius:12px;background:#fff;margin-top:6px}
+input[type=range]{padding:0;border:0;background:none;accent-color:var(--g)}
+label{display:block;margin:14px 0;color:var(--g)}
+button{cursor:pointer}
+.pri,.sec,.del{border-radius:12px;padding:12px 16px;border:1.5px solid var(--g);background:var(--g);color:var(--c);width:100%;margin:8px 0}
+.sec{background:none;color:var(--g);text-align:center;display:block}
+.del{background:none;border-color:#9a3b3b;color:#9a3b3b;margin-top:28px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.top .pri{width:auto;margin:0}
+.ic{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--g3);background:none;color:var(--g);font-size:20px}
+.home{background:none;border:0;color:var(--g2);padding:0;font-size:16px}
+.tile{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;margin:12px 0;border-radius:18px;background:var(--g4);border:1.5px solid var(--g3);cursor:pointer}
+.tile b{font-weight:400;font-size:21px;display:block;margin-bottom:4px}
+.badge{flex:none;min-width:48px;height:48px;padding:0 6px;display:grid;place-items:center;background:var(--g);color:var(--c);font-size:21px;border-radius:12px}
+.dh{display:flex;justify-content:space-between;align-items:center;margin:26px 0 10px}
+img.d{width:100%;border-radius:16px;display:block}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.row select{margin:0;padding:10px 8px;font-size:14px}
+.sw{position:relative;margin:10px 0}
+.sw input{margin:0}
+#sug div,.res{padding:12px 14px;border-bottom:1px solid var(--g4);cursor:pointer}
+#sug{position:absolute;left:0;right:0;top:100%;background:#fff;border-radius:0 0 12px 12px;box-shadow:0 8px 20px #2c444c26;z-index:5}
+.res small{display:block}
+.dish{border:1.5px solid var(--g3);border-radius:16px;padding:14px;margin:12px 0}
+.dish .acts{display:grid;grid-template-columns:1fr 1fr 42px;gap:8px;align-items:center}
+.dish .sec{margin:0;padding:10px}
+.dish img{width:100%;border-radius:12px;margin-bottom:10px}
+.rv{display:flex;justify-content:space-between;color:var(--g)}
+nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 84px 1fr;align-items:center;padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:var(--c);border-top:1.5px solid var(--g4);z-index:20}
+nav[hidden]{display:none}
+nav button{background:none;border:0;color:var(--g3);padding:10px;font-size:17px}
+nav button.on{color:var(--g)}
+nav .plus{width:64px;height:64px;border-radius:50%;background:var(--g);color:var(--c);font-size:36px;line-height:1;margin:-30px auto 0;padding:0;box-shadow:0 0 0 6px var(--c)}
+#map{position:fixed;inset:0 0 calc(76px + env(safe-area-inset-bottom)) 0}
+#map+.home{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:12px;z-index:900;background:var(--c);border:1.5px solid var(--g3);border-radius:20px;padding:8px 14px}
+.pin{width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--g);border:3px solid var(--c);box-shadow:0 1px 4px #0006}
+.modal{position:fixed;inset:0;background:var(--c);z-index:50;overflow:auto;padding:calc(env(safe-area-inset-top) + 18px) 18px 40px}
+.leaflet-popup-content{font-family:Norwester,"Arial Narrow",sans-serif;color:var(--g)}
+</style></head>
+<body>
+<div id="app"></div>
+<nav id="nav" hidden>
+<button data-t="hist" onclick="go('hist')">Historie</button>
+<button class="plus" onclick="form()" aria-label="Neuer Besuch">+</button>
+<button data-t="map" onclick="go('map')">Karte</button>
+</nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// === HIER EINTRAGEN (Supabase > Project Settings > API) ===
+const SB_URL='https://rjuvhetcgkwysrsibjzf.supabase.co', SB_KEY='sb_publishable__dA8qEIr3hYTRxGCVz-IoQ_iiesFlFx';
+// ==========================================================
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1});
+const fd=d=>new Date(d+'T12:00').toLocaleDateString('de-DE');
+const url=p=>sb.storage.from('dishes').getPublicUrl(p).data.publicUrl;
+const P=h=>app.innerHTML='<main>'+h+'</main>';
+let V=[],tab='home',F={q:'',cu:'',min:0,sort:'new'},M=null,cur,D=[],E={};
+
+async function boot(){const{data:{session}}=await sb.auth.getSession();session?load():loginV()}
+async function load(){const{data,error}=await sb.from('visits').select('*,dishes(*)').order('created_at',{ascending:false});if(error)return alert('Fehler: '+error.message);V=data;go('home')}
+function loginV(){$('#nav').hidden=true;P(`<h1>Restaurant App</h1><p class=sub>Bitte anmelden</p><label>E-Mail<input id=em type=email autocomplete=username></label><label>Passwort<input id=pw type=password autocomplete=current-password></label><button class=pri onclick=login()>Anmelden</button>`)}
+async function login(){const{error}=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});error?alert('Anmeldung fehlgeschlagen'):load()}
+function go(t){tab=t;if(M){M.remove();M=null}$('#nav').hidden=false;document.querySelectorAll('nav [data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));scrollTo(0,0);({home:homeV,hist:histV,map:mapV})[t]()}
+
+const tile=v=>`<div class=tile onclick="detail('${v.id}')"><div><b>${esc(v.name)}</b><small>${fd(v.visit_date)} · ${esc(v.cuisine||'–')} · ${esc(v.city||'–')}</small></div><span class=badge>${fmt(v.rating)}</span></div>`;
+
+function homeV(){P(`<h1>Zuletzt besucht</h1>${V.slice(0,3).map(tile).join('')||'<p class=mut>Noch keine Besuche. Tippe auf +, um den ersten zu erfassen.</p>'}<p><button class=home onclick="sb.auth.signOut().then(loginV)">Abmelden</button></p>`)}
+
+function histV(){
+ const cus=[...new Set(V.map(v=>v.cuisine).filter(Boolean))].sort();
+ P(`<button class=home onclick="go('home')">‹ Start</button><h1>Historie</h1>
+ <div class=sw><input id=q placeholder="Restaurant suchen" autocomplete=off value="${esc(F.q)}"><div id=sug></div></div>
+ <div class=row><select id=cu><option value="">Alle Küchen</option>${cus.map(c=>`<option ${c==F.cu?'selected':''}>${esc(c)}</option>`).join('')}</select>
+ <select id=mn>${[0,5,6,7,8,9].map(n=>`<option value=${n} ${n==F.min?'selected':''}>${n?'ab '+n:'Alle Punkte'}</option>`).join('')}</select>
+ <select id=so><option value=new ${F.sort=='new'?'selected':''}>Neueste</option><option value=az ${F.sort=='az'?'selected':''}>A–Z</option></select></div><div id=list></div>`);
+ $('#q').oninput=e=>{F.q=e.target.value;hl()};$('#cu').onchange=e=>{F.cu=e.target.value;hl()};$('#mn').onchange=e=>{F.min=+e.target.value;hl()};$('#so').onchange=e=>{F.sort=e.target.value;hl()};hl()}
+function hl(){
+ const q=F.q.trim().toLowerCase();
+ const a=V.filter(v=>(!q||v.name.toLowerCase().includes(q))&&(!F.cu||v.cuisine==F.cu)&&v.rating>=F.min);
+ a.sort(F.sort=='az'?(x,y)=>x.name.localeCompare(y.name,'de'):(x,y)=>y.created_at.localeCompare(x.created_at));
+ $('#list').innerHTML=a.map(tile).join('')||'<p class=mut>Keine Treffer.</p>';
+ const m=q?[...new Set(V.filter(v=>v.name.toLowerCase().includes(q)&&v.name.toLowerCase()!=q).map(v=>v.name))].slice(0,5):[];
+ $('#sug').innerHTML=m.map(n=>`<div onclick="F.q=this.textContent;$('#q').value=F.q;hl()">${esc(n)}</div>`).join('')}
+
+function detail(id){
+ const v=cur=V.find(x=>x.id==id);$('#nav').hidden=false;if(M){M.remove();M=null}scrollTo(0,0);
+ const ds=[...v.dishes].sort((a,b)=>a.position-b.position);
+ P(`<div class=top><button class=ic onclick="go(tab)">‹</button><button class=ic onclick="form(cur)" aria-label="Bearbeiten">✎</button></div>
+ <h1>${esc(v.name)}</h1><p class=sub>${fd(v.visit_date)} · ${esc(v.city||'–')} · Gesamt ${fmt(v.rating)}</p>
+ ${v.lat!=null?`<a class=mut href="https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lng}" target=_blank>In Google Maps öffnen</a>`:''}
+ ${ds.map(d=>`<div class=dh><h2>${esc(d.name)}</h2><span class=badge>${fmt(d.rating)}</span></div>${d.photo?`<img class=d src="${url(d.photo)}">`:''}`).join('')}`)}
+
+function mapV(){
+ app.innerHTML='<div id=map></div><button class=home onclick="go(\'home\')">‹ Start</button>';
+ M=L.map('map',{zoomControl:false});
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(M);
+ const ic=L.divIcon({className:'',html:'<div class=pin></div>',iconSize:[22,22],iconAnchor:[11,22],popupAnchor:[0,-22]});
+ const pts=V.filter(v=>v.lat!=null);
+ pts.forEach(v=>L.marker([v.lat,v.lng],{icon:ic}).addTo(M).bindPopup(`<b>${esc(v.name)}</b><br>${fmt(v.rating)} / 10<br><a href="#" onclick="detail('${v.id}');return false">Öffnen</a>`));
+ M.setView(pts.length?[pts[0].lat,pts[0].lng]:[48.2082,16.3738],12);
+ navigator.geolocation&&navigator.geolocation.getCurrentPosition(p=>{if(!M)return;const c=[p.coords.latitude,p.coords.longitude];M.setView(c,13);L.circleMarker(c,{radius:8,color:'#2C444C',weight:3,fillColor:'#fff',fillOpacity:1}).addTo(M)})}
+
+// ---------- Formular ----------
+function form(v){
+ const t=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+ E=v?{...v}:{name:'',visit_date:t,cuisine:'',city:'',lat:null,lng:null,rating:5};
+ D=v?[...v.dishes].sort((a,b)=>a.position-b.position).map(d=>({...d})):[{name:'',rating:5}];
+ $('#nav').hidden=true;if(M){M.remove();M=null}fv(0)}
+function fv(y){
+ const cus=[...new Set(V.map(v=>v.cuisine).filter(Boolean))];
+ P(`<div class=top><button class=ic onclick="go(tab)">✕</button><button class=pri onclick=save()>Speichern</button></div>
+ <h1>${E.id?'Besuch bearbeiten':'Neuer Besuch'}</h1>
+ <label>Restaurant<input value="${esc(E.name)}" oninput="E.name=this.value"></label>
+ <label>Datum<input type=date value="${E.visit_date}" oninput="E.visit_date=this.value"></label>
+ <label>Küche<input list=cl value="${esc(E.cuisine)}" oninput="E.cuisine=this.value"><datalist id=cl>${cus.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></label>
+ <button class=sec onclick=pick()>Auf Karte suchen</button>
+ <p class=mut>${E.lat!=null?'Ort gespeichert: '+esc(E.city||'Position gesetzt'):''}</p>
+ <h2 style="margin-top:24px">Gerichte</h2>
+ ${D.map((d,i)=>`<div class=dish>${d.prev||d.photo?`<img src="${d.prev||url(d.photo)}">`:''}
+ <div class=acts><label class=sec>Kamera<input type=file accept="image/*" capture=environment hidden onchange="pic(${i},this)"></label>
+ <label class=sec>Galerie<input type=file accept="image/*" hidden onchange="pic(${i},this)"></label>
+ <button class=ic onclick="D.splice(${i},1);fv(scrollY)" aria-label="Entfernen">×</button></div>
+ <label>Name des Gerichts<input value="${esc(d.name)}" oninput="D[${i}].name=this.value"></label>
+ <div class=rv><span>Bewertung</span><b id=r${i}>${fmt(d.rating)}</b></div>
+ <input type=range min=1 max=10 step=.5 value=${d.rating} oninput="D[${i}].rating=+this.value;$('#r${i}').textContent=fmt(this.value)"></div>`).join('')}
+ <button class=sec onclick="D.push({name:'',rating:5});fv(scrollY)">Weiteres Gericht</button>
+ <div class=rv style="margin-top:26px"><span>Gesamtbewertung</span><b id=ro>${fmt(E.rating)}</b></div>
+ <input type=range min=1 max=10 step=.5 value=${E.rating} oninput="E.rating=+this.value;$('#ro').textContent=fmt(this.value)">
+ ${E.id?'<button class=del onclick=del()>Eintrag löschen</button>':''}`);
+ scrollTo(0,y||0)}
+function shrink(f){return new Promise(r=>{const i=new Image();i.onload=()=>{const s=Math.min(1,1280/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);c.toBlob(r,'image/jpeg',.8)};i.src=URL.createObjectURL(f)})}
+async function pic(i,el){const f=el.files[0];if(!f)return;const b=await shrink(f);D[i].blob=b;D[i].prev=URL.createObjectURL(b);fv(scrollY)}
+
+function pick(){
+ const m=document.createElement('div');m.className='modal';
+ m.innerHTML=`<div class=top><button class=ic onclick="this.closest('.modal').remove()">✕</button></div><h1>Restaurant suchen</h1><input id=ms placeholder="Name und Stadt, z. B. Figlmüller Wien"><button class=pri onclick=ms()>Suchen</button><div id=mr></div>`;
+ document.body.append(m)}
+async function ms(){
+ $('#mr').textContent='Suche läuft …';
+ try{const r=await(await fetch('https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=8&accept-language=de&q='+encodeURIComponent($('#ms').value))).json();window.R=r;
+ $('#mr').innerHTML=r.map((x,i)=>`<div class=res onclick=use(${i})><b>${esc(x.name||x.display_name.split(',')[0])}</b><small>${esc(x.display_name)}</small></div>`).join('')||'<p class=mut>Nichts gefunden. Versuche Name plus Stadt.</p>'}
+ catch(e){$('#mr').textContent='Suche fehlgeschlagen. Bitte Verbindung prüfen.'}}
+function use(i){const x=R[i],a=x.address||{};
+ if(!E.name.trim())E.name=x.name||x.display_name.split(',')[0];
+ E.city=a.city||a.town||a.village||a.municipality||'';E.lat=+x.lat;E.lng=+x.lon;
+ $('.modal').remove();fv(0)}
+
+async function save(){
+ if(!E.name.trim())return alert('Bitte einen Restaurantnamen eingeben.');
+ const row={name:E.name.trim(),visit_date:E.visit_date,cuisine:E.cuisine.trim()||null,city:E.city||null,lat:E.lat,lng:E.lng,rating:E.rating};
+ let id=E.id;
+ try{
+  if(id){const{error}=await sb.from('visits').update(row).eq('id',id);if(error)throw error}
+  else{const{data,error}=await sb.from('visits').insert(row).select().single();if(error)throw error;id=data.id}
+  const rows=[];
+  for(const[i,d]of D.entries()){
+   if(!d.name.trim()&&!d.blob&&!d.photo)continue;
+   let p=d.photo||null;
+   if(d.blob){p=`${id}/${crypto.randomUUID()}.jpg`;const{error}=await sb.storage.from('dishes').upload(p,d.blob,{contentType:'image/jpeg'});if(error)throw error}
+   rows.push({visit_id:id,name:d.name.trim()||'Gericht',rating:d.rating,photo:p,position:i})}
+  const old=(V.find(v=>v.id==id)?.dishes||[]).map(d=>d.photo).filter(Boolean);
+  await sb.from('dishes').delete().eq('visit_id',id);
+  if(rows.length){const{error}=await sb.from('dishes').insert(rows);if(error)throw error}
+  const keep=rows.map(r=>r.photo),rm=old.filter(p=>!keep.includes(p));
+  if(rm.length)await sb.storage.from('dishes').remove(rm);
+  await load()
+ }catch(e){alert('Speichern fehlgeschlagen: '+e.message)}}
+async function del(){
+ if(!confirm('Diesen Eintrag endgültig löschen?'))return;
+ const ph=E.dishes.map(d=>d.photo).filter(Boolean);
+ if(ph.length)await sb.storage.from('dishes').remove(ph);
+ const{error}=await sb.from('visits').delete().eq('id',E.id);
+ error?alert(error.message):load()}
+boot();
+</script></body></html>
