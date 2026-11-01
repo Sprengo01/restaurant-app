@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    body {background-color: #fffdef}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Arial Narrow'; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Arial Narrow'; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="de"&gt;&lt;head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta charset="utf-8"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta name="apple-mobile-web-app-title" content="Restaurants"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta name="theme-color" content="#FFFDF2"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;link rel="manifest" href="manifest.json"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;link rel="apple-touch-icon" href="icon.png"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;title&gt;Restaurant App&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1">&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;style&gt;</span></p>
+<p class="p1"><span class="s1">@font-face{font-family:Norwester;src:url(Norwester.otf) format("opentype")}</span></p>
+<p class="p1"><span class="s1">:root{--c:#FFFDF2;--g:#2C444C;--g2:#587880;--g3:#A8BCC0;--g4:#E6ECED;--t:#000}</span></p>
+<p class="p1"><span class="s1">*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}</span></p>
+<p class="p1"><span class="s1">body{margin:0;background:var(--c);color:var(--t);font-family:Norwester,"Arial Narrow",sans-serif;letter-spacing:.03em}</span></p>
+<p class="p1"><span class="s1">main{padding:calc(env(safe-area-inset-top) + 18px) 18px calc(120px + env(safe-area-inset-bottom));max-width:640px;margin:auto}</span></p>
+<p class="p1"><span class="s1">h1{font-size:34px;line-height:1.05;margin:8px 0 6px;font-weight:400}</span></p>
+<p class="p1"><span class="s1">h2{font-size:22px;margin:0;font-weight:400}</span></p>
+<p class="p1"><span class="s1">small,.mut{color:var(--g2);font-size:14px}</span></p>
+<p class="p1"><span class="s1">.sub{color:var(--g2);margin:0 0 16px}</span></p>
+<p class="p1"><span class="s1">input,select,button{font:inherit;font-size:16px;color:var(--t);letter-spacing:inherit}</span></p>
+<p class="p1"><span class="s1">input,select{width:100%;padding:12px 14px;border:1.5px solid var(--g3);border-radius:12px;background:#fff;margin-top:6px}</span></p>
+<p class="p1"><span class="s1">input[type=range]{padding:0;border:0;background:none;accent-color:var(--g)}</span></p>
+<p class="p1"><span class="s1">label{display:block;margin:14px 0;color:var(--g)}</span></p>
+<p class="p1"><span class="s1">button{cursor:pointer}</span></p>
+<p class="p1"><span class="s1">.pri,.sec,.del{border-radius:12px;padding:12px 16px;border:1.5px solid var(--g);background:var(--g);color:var(--c);width:100%;margin:8px 0}</span></p>
+<p class="p1"><span class="s1">.sec{background:none;color:var(--g);text-align:center;display:block}</span></p>
+<p class="p1"><span class="s1">.del{background:none;border-color:#9a3b3b;color:#9a3b3b;margin-top:28px}</span></p>
+<p class="p1"><span class="s1">.top{display:flex;justify-content:space-between;align-items:center;gap:12px}</span></p>
+<p class="p1"><span class="s1">.top .pri{width:auto;margin:0}</span></p>
+<p class="p1"><span class="s1">.ic{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--g3);background:none;color:var(--g);font-size:20px}</span></p>
+<p class="p1"><span class="s1">.home{background:none;border:0;color:var(--g2);padding:0;font-size:16px}</span></p>
+<p class="p1"><span class="s1">.tile{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;margin:12px 0;border-radius:18px;background:var(--g4);border:1.5px solid var(--g3);cursor:pointer}</span></p>
+<p class="p1"><span class="s1">.tile b{font-weight:400;font-size:21px;display:block;margin-bottom:4px}</span></p>
+<p class="p1"><span class="s1">.badge{flex:none;min-width:48px;height:48px;padding:0 6px;display:grid;place-items:center;background:var(--g);color:var(--c);font-size:21px;border-radius:12px}</span></p>
+<p class="p1"><span class="s1">.dh{display:flex;justify-content:space-between;align-items:center;margin:26px 0 10px}</span></p>
+<p class="p1"><span class="s1">img.d{width:100%;border-radius:16px;display:block}</span></p>
+<p class="p1"><span class="s1">.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}</span></p>
+<p class="p1"><span class="s1">.row select{margin:0;padding:10px 8px;font-size:14px}</span></p>
+<p class="p1"><span class="s1">.sw{position:relative;margin:10px 0}</span></p>
+<p class="p1"><span class="s1">.sw input{margin:0}</span></p>
+<p class="p1"><span class="s1">#sug div,.res{padding:12px 14px;border-bottom:1px solid var(--g4);cursor:pointer}</span></p>
+<p class="p1"><span class="s1">#sug{position:absolute;left:0;right:0;top:100%;background:#fff;border-radius:0 0 12px 12px;box-shadow:0 8px 20px #2c444c26;z-index:5}</span></p>
+<p class="p1"><span class="s1">.res small{display:block}</span></p>
+<p class="p1"><span class="s1">.dish{border:1.5px solid var(--g3);border-radius:16px;padding:14px;margin:12px 0}</span></p>
+<p class="p1"><span class="s1">.dish .acts{display:grid;grid-template-columns:1fr 1fr 42px;gap:8px;align-items:center}</span></p>
+<p class="p1"><span class="s1">.dish .sec{margin:0;padding:10px}</span></p>
+<p class="p1"><span class="s1">.dish img{width:100%;border-radius:12px;margin-bottom:10px}</span></p>
+<p class="p1"><span class="s1">.rv{display:flex;justify-content:space-between;color:var(--g)}</span></p>
+<p class="p1"><span class="s1">nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 84px 1fr;align-items:center;padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:var(--c);border-top:1.5px solid var(--g4);z-index:20}</span></p>
+<p class="p1"><span class="s1">nav[hidden]{display:none}</span></p>
+<p class="p1"><span class="s1">nav button{background:none;border:0;color:var(--g3);padding:10px;font-size:17px}</span></p>
+<p class="p1"><span class="s1">nav button.on{color:var(--g)}</span></p>
+<p class="p1"><span class="s1">nav .plus{width:64px;height:64px;border-radius:50%;background:var(--g);color:var(--c);font-size:36px;line-height:1;margin:-30px auto 0;padding:0;box-shadow:0 0 0 6px var(--c)}</span></p>
+<p class="p1"><span class="s1">#map{position:fixed;inset:0 0 calc(76px + env(safe-area-inset-bottom)) 0}</span></p>
+<p class="p1"><span class="s1">#map+.home{position:fixed;top:calc(env(safe-area-inset-top) + 12px);left:12px;z-index:900;background:var(--c);border:1.5px solid var(--g3);border-radius:20px;padding:8px 14px}</span></p>
+<p class="p1"><span class="s1">.pin{width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--g);border:3px solid var(--c);box-shadow:0 1px 4px #0006}</span></p>
+<p class="p1"><span class="s1">.modal{position:fixed;inset:0;background:var(--c);z-index:50;overflow:auto;padding:calc(env(safe-area-inset-top) + 18px) 18px 40px}</span></p>
+<p class="p1"><span class="s1">.leaflet-popup-content{font-family:Norwester,"Arial Narrow",sans-serif;color:var(--g)}</span></p>
+<p class="p1"><span class="s1">&lt;/style&gt;&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;div id="app"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;nav id="nav" hidden&gt;</span></p>
+<p class="p1"><span class="s1">&lt;button data-t="hist" onclick="go('hist')"&gt;Historie&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1">&lt;button class="plus" onclick="form()" aria-label="Neuer Besuch"&gt;+&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1">&lt;button data-t="map" onclick="go('map')"&gt;Karte&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/nav&gt;</span></p>
+<p class="p1"><span class="s1">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1">// === HIER EINTRAGEN (Supabase &gt; Project Settings &gt; API) ===</span></p>
+<p class="p1"><span class="s1">const SB_URL='https://rjuvhetcgkwysrsibjzf.supabase.co', SB_KEY='sb_publishable__dA8qEIr3hYTRxGCVz-IoQ_iiesFlFx';</span></p>
+<p class="p1"><span class="s1">// ==========================================================</span></p>
+<p class="p1"><span class="s1">const sb=supabase.createClient(SB_URL,SB_KEY);</span></p>
+<p class="p1"><span class="s1">const $=s=&gt;document.querySelector(s),app=$('#app');</span></p>
+<p class="p1"><span class="s1">const esc=s=&gt;String(s??'').replace(/[&amp;&lt;&gt;"']/g,c=&gt;({'&amp;':'&amp;amp;','&lt;':'&amp;lt;','&gt;':'&amp;gt;','"':'&amp;quot;',"'":'&amp;#39;'}[c]));</span></p>
+<p class="p1"><span class="s1">const fmt=n=&gt;Number(n).toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1});</span></p>
+<p class="p1"><span class="s1">const fd=d=&gt;new Date(d+'T12:00').toLocaleDateString('de-DE');</span></p>
+<p class="p1"><span class="s1">const url=p=&gt;sb.storage.from('dishes').getPublicUrl(p).data.publicUrl;</span></p>
+<p class="p1"><span class="s1">const P=h=&gt;app.innerHTML='&lt;main&gt;'+h+'&lt;/main&gt;';</span></p>
+<p class="p1"><span class="s1">let V=[],tab='home',F={q:'',cu:'',min:0,sort:'new'},M=null,cur,D=[],E={};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">async function boot(){const{data:{session}}=await sb.auth.getSession();session?load():loginV()}</span></p>
+<p class="p1"><span class="s1">async function load(){const{data,error}=await sb.from('visits').select('*,dishes(*)').order('created_at',{ascending:false});if(error)return alert('Fehler: '+error.message);V=data;go('home')}</span></p>
+<p class="p1"><span class="s1">function loginV(){$('#nav').hidden=true;P(`&lt;h1&gt;Restaurant App&lt;/h1&gt;&lt;p class=sub&gt;Bitte anmelden&lt;/p&gt;&lt;label&gt;E-Mail&lt;input id=em type=email autocomplete=username&gt;&lt;/label&gt;&lt;label&gt;Passwort&lt;input id=pw type=password autocomplete=current-password&gt;&lt;/label&gt;&lt;button class=pri onclick=login()&gt;Anmelden&lt;/button&gt;`)}</span></p>
+<p class="p1"><span class="s1">async function login(){const{error}=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});error?alert('Anmeldung fehlgeschlagen'):load()}</span></p>
+<p class="p1"><span class="s1">function go(t){tab=t;if(M){M.remove();M=null}$('#nav').hidden=false;document.querySelectorAll('nav [data-t]').forEach(b=&gt;b.classList.toggle('on',b.dataset.t==t));scrollTo(0,0);({home:homeV,hist:histV,map:mapV})[t]()}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">const tile=v=&gt;`&lt;div class=tile onclick="detail('${v.id}')"&gt;&lt;div&gt;&lt;b&gt;${esc(v.name)}&lt;/b&gt;&lt;small&gt;${fd(v.visit_date)} · ${esc(v.cuisine||'–')} · ${esc(v.city||'–')}&lt;/small&gt;&lt;/div&gt;&lt;span class=badge&gt;${fmt(v.rating)}&lt;/span&gt;&lt;/div&gt;`;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function homeV(){P(`&lt;h1&gt;Zuletzt besucht&lt;/h1&gt;${V.slice(0,3).map(tile).join('')||'&lt;p class=mut&gt;Noch keine Besuche. Tippe auf +, um den ersten zu erfassen.&lt;/p&gt;'}&lt;p&gt;&lt;button class=home onclick="sb.auth.signOut().then(loginV)"&gt;Abmelden&lt;/button&gt;&lt;/p&gt;`)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function histV(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const cus=[...new Set(V.map(v=&gt;v.cuisine).filter(Boolean))].sort();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>P(`&lt;button class=home onclick="go('home')"&gt;‹ Start&lt;/button&gt;&lt;h1&gt;Historie&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;div class=sw&gt;&lt;input id=q placeholder="Restaurant suchen" autocomplete=off value="${esc(F.q)}"&gt;&lt;div id=sug&gt;&lt;/div&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;div class=row&gt;&lt;select id=cu&gt;&lt;option value=""&gt;Alle Küchen&lt;/option&gt;${cus.map(c=&gt;`&lt;option ${c==F.cu?'selected':''}&gt;${esc(c)}&lt;/option&gt;`).join('')}&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;select id=mn&gt;${[0,5,6,7,8,9].map(n=&gt;`&lt;option value=${n} ${n==F.min?'selected':''}&gt;${n?'ab '+n:'Alle Punkte'}&lt;/option&gt;`).join('')}&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;select id=so&gt;&lt;option value=new ${F.sort=='new'?'selected':''}&gt;Neueste&lt;/option&gt;&lt;option value=az ${F.sort=='az'?'selected':''}&gt;A–Z&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;&lt;div id=list&gt;&lt;/div&gt;`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('#q').oninput=e=&gt;{F.q=e.target.value;hl()};$('#cu').onchange=e=&gt;{F.cu=e.target.value;hl()};$('#mn').onchange=e=&gt;{F.min=+e.target.value;hl()};$('#so').onchange=e=&gt;{F.sort=e.target.value;hl()};hl()}</span></p>
+<p class="p1"><span class="s1">function hl(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const q=F.q.trim().toLowerCase();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const a=V.filter(v=&gt;(!q||v.name.toLowerCase().includes(q))&amp;&amp;(!F.cu||v.cuisine==F.cu)&amp;&amp;v.rating&gt;=F.min);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>a.sort(F.sort=='az'?(x,y)=&gt;x.name.localeCompare(y.name,'de'):(x,y)=&gt;y.created_at.localeCompare(x.created_at));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('#list').innerHTML=a.map(tile).join('')||'&lt;p class=mut&gt;Keine Treffer.&lt;/p&gt;';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const m=q?[...new Set(V.filter(v=&gt;v.name.toLowerCase().includes(q)&amp;&amp;v.name.toLowerCase()!=q).map(v=&gt;v.name))].slice(0,5):[];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('#sug').innerHTML=m.map(n=&gt;`&lt;div onclick="F.q=this.textContent;$('#q').value=F.q;hl()"&gt;${esc(n)}&lt;/div&gt;`).join('')}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function detail(id){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const v=cur=V.find(x=&gt;x.id==id);$('#nav').hidden=false;if(M){M.remove();M=null}scrollTo(0,0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const ds=[...v.dishes].sort((a,b)=&gt;a.position-b.position);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>P(`&lt;div class=top&gt;&lt;button class=ic onclick="go(tab)"&gt;‹&lt;/button&gt;&lt;button class=ic onclick="form(cur)" aria-label="Bearbeiten"&gt;✎&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;h1&gt;${esc(v.name)}&lt;/h1&gt;&lt;p class=sub&gt;${fd(v.visit_date)} · ${esc(v.city||'–')} · Gesamt ${fmt(v.rating)}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>${v.lat!=null?`&lt;a class=mut href="https://www.google.com/maps/search/?api=1&amp;query=${v.lat},${v.lng}" target=_blank&gt;In Google Maps öffnen&lt;/a&gt;`:''}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>${ds.map(d=&gt;`&lt;div class=dh&gt;&lt;h2&gt;${esc(d.name)}&lt;/h2&gt;&lt;span class=badge&gt;${fmt(d.rating)}&lt;/span&gt;&lt;/div&gt;${d.photo?`&lt;img class=d src="${url(d.photo)}"&gt;`:''}`).join('')}`)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function mapV(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>app.innerHTML='&lt;div id=map&gt;&lt;/div&gt;&lt;button class=home onclick="go(\'home\')"&gt;‹ Start&lt;/button&gt;';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>M=L.map('map',{zoomControl:false});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(M);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const ic=L.divIcon({className:'',html:'&lt;div class=pin&gt;&lt;/div&gt;',iconSize:[22,22],iconAnchor:[11,22],popupAnchor:[0,-22]});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const pts=V.filter(v=&gt;v.lat!=null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>pts.forEach(v=&gt;L.marker([v.lat,v.lng],{icon:ic}).addTo(M).bindPopup(`&lt;b&gt;${esc(v.name)}&lt;/b&gt;&lt;br&gt;${fmt(v.rating)} / 10&lt;br&gt;&lt;a href="#" onclick="detail('${v.id}');return false"&gt;Öffnen&lt;/a&gt;`));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>M.setView(pts.length?[pts[0].lat,pts[0].lng]:[48.2082,16.3738],12);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>navigator.geolocation&amp;&amp;navigator.geolocation.getCurrentPosition(p=&gt;{if(!M)return;const c=[p.coords.latitude,p.coords.longitude];M.setView(c,13);L.circleMarker(c,{radius:8,color:'#2C444C',weight:3,fillColor:'#fff',fillOpacity:1}).addTo(M)})}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">// ---------- Formular ----------</span></p>
+<p class="p1"><span class="s1">function form(v){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const t=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>E=v?{...v}:{name:'',visit_date:t,cuisine:'',city:'',lat:null,lng:null,rating:5};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>D=v?[...v.dishes].sort((a,b)=&gt;a.position-b.position).map(d=&gt;({...d})):[{name:'',rating:5}];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('#nav').hidden=true;if(M){M.remove();M=null}fv(0)}</span></p>
+<p class="p1"><span class="s1">function fv(y){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const cus=[...new Set(V.map(v=&gt;v.cuisine).filter(Boolean))];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>P(`&lt;div class=top&gt;&lt;button class=ic onclick="go(tab)"&gt;✕&lt;/button&gt;&lt;button class=pri onclick=save()&gt;Speichern&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;h1&gt;${E.id?'Besuch bearbeiten':'Neuer Besuch'}&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;label&gt;Restaurant&lt;input value="${esc(E.name)}" oninput="E.name=this.value"&gt;&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;label&gt;Datum&lt;input type=date value="${E.visit_date}" oninput="E.visit_date=this.value"&gt;&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;label&gt;Küche&lt;input list=cl value="${esc(E.cuisine)}" oninput="E.cuisine=this.value"&gt;&lt;datalist id=cl&gt;${cus.map(c=&gt;`&lt;option value="${esc(c)}"&gt;`).join('')}&lt;/datalist&gt;&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;button class=sec onclick=pick()&gt;Auf Karte suchen&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;p class=mut&gt;${E.lat!=null?'Ort gespeichert: '+esc(E.city||'Position gesetzt'):''}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;h2 style="margin-top:24px"&gt;Gerichte&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>${D.map((d,i)=&gt;`&lt;div class=dish&gt;${d.prev||d.photo?`&lt;img src="${d.prev||url(d.photo)}"&gt;`:''}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;div class=acts&gt;&lt;label class=sec&gt;Kamera&lt;input type=file accept="image/*" capture=environment hidden onchange="pic(${i},this)"&gt;&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;label class=sec&gt;Galerie&lt;input type=file accept="image/*" hidden onchange="pic(${i},this)"&gt;&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;button class=ic onclick="D.splice(${i},1);fv(scrollY)" aria-label="Entfernen"&gt;×&lt;/button&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;label&gt;Name des Gerichts&lt;input value="${esc(d.name)}" oninput="D[${i}].name=this.value"&gt;&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;div class=rv&gt;&lt;span&gt;Bewertung&lt;/span&gt;&lt;b id=r${i}&gt;${fmt(d.rating)}&lt;/b&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;input type=range min=1 max=10 step=.5 value=${d.rating} oninput="D[${i}].rating=+this.value;$('#r${i}').textContent=fmt(this.value)"&gt;&lt;/div&gt;`).join('')}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;button class=sec onclick="D.push({name:'',rating:5});fv(scrollY)"&gt;Weiteres Gericht&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;div class=rv style="margin-top:26px"&gt;&lt;span&gt;Gesamtbewertung&lt;/span&gt;&lt;b id=ro&gt;${fmt(E.rating)}&lt;/b&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>&lt;input type=range min=1 max=10 step=.5 value=${E.rating} oninput="E.rating=+this.value;$('#ro').textContent=fmt(this.value)"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>${E.id?'&lt;button class=del onclick=del()&gt;Eintrag löschen&lt;/button&gt;':''}`);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>scrollTo(0,y||0)}</span></p>
+<p class="p1"><span class="s1">function shrink(f){return new Promise(r=&gt;{const i=new Image();i.onload=()=&gt;{const s=Math.min(1,1280/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);c.toBlob(r,'image/jpeg',.8)};i.src=URL.createObjectURL(f)})}</span></p>
+<p class="p1"><span class="s1">async function pic(i,el){const f=el.files[0];if(!f)return;const b=await shrink(f);D[i].blob=b;D[i].prev=URL.createObjectURL(b);fv(scrollY)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function pick(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const m=document.createElement('div');m.className='modal';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>m.innerHTML=`&lt;div class=top&gt;&lt;button class=ic onclick="this.closest('.modal').remove()"&gt;✕&lt;/button&gt;&lt;/div&gt;&lt;h1&gt;Restaurant suchen&lt;/h1&gt;&lt;input id=ms placeholder="Name und Stadt, z. B. Figlmüller Wien"&gt;&lt;button class=pri onclick=ms()&gt;Suchen&lt;/button&gt;&lt;div id=mr&gt;&lt;/div&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>document.body.append(m)}</span></p>
+<p class="p1"><span class="s1">async function ms(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('#mr').textContent='Suche läuft …';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>try{const r=await(await fetch('https://nominatim.openstreetmap.org/search?format=json&amp;addressdetails=1&amp;limit=8&amp;accept-language=de&amp;q='+encodeURIComponent($('#ms').value))).json();window.R=r;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('#mr').innerHTML=r.map((x,i)=&gt;`&lt;div class=res onclick=use(${i})&gt;&lt;b&gt;${esc(x.name||x.display_name.split(',')[0])}&lt;/b&gt;&lt;small&gt;${esc(x.display_name)}&lt;/small&gt;&lt;/div&gt;`).join('')||'&lt;p class=mut&gt;Nichts gefunden. Versuche Name plus Stadt.&lt;/p&gt;'}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>catch(e){$('#mr').textContent='Suche fehlgeschlagen. Bitte Verbindung prüfen.'}}</span></p>
+<p class="p1"><span class="s1">function use(i){const x=R[i],a=x.address||{};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>if(!E.name.trim())E.name=x.name||x.display_name.split(',')[0];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>E.city=a.city||a.town||a.village||a.municipality||'';E.lat=+x.lat;E.lng=+x.lon;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>$('.modal').remove();fv(0)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">async function save(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>if(!E.name.trim())return alert('Bitte einen Restaurantnamen eingeben.');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const row={name:E.name.trim(),visit_date:E.visit_date,cuisine:E.cuisine.trim()||null,city:E.city||null,lat:E.lat,lng:E.lng,rating:E.rating};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>let id=E.id;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>try{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if(id){const{error}=await sb.from('visits').update(row).eq('id',id);if(error)throw error}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>else{const{data,error}=await sb.from('visits').insert(row).select().single();if(error)throw error;id=data.id}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const rows=[];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>for(const[i,d]of D.entries()){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">   </span>if(!d.name.trim()&amp;&amp;!d.blob&amp;&amp;!d.photo)continue;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">   </span>let p=d.photo||null;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">   </span>if(d.blob){p=`${id}/${crypto.randomUUID()}.jpg`;const{error}=await sb.storage.from('dishes').upload(p,d.blob,{contentType:'image/jpeg'});if(error)throw error}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">   </span>rows.push({visit_id:id,name:d.name.trim()||'Gericht',rating:d.rating,photo:p,position:i})}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const old=(V.find(v=&gt;v.id==id)?.dishes||[]).map(d=&gt;d.photo).filter(Boolean);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>await sb.from('dishes').delete().eq('visit_id',id);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if(rows.length){const{error}=await sb.from('dishes').insert(rows);if(error)throw error}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const keep=rows.map(r=&gt;r.photo),rm=old.filter(p=&gt;!keep.includes(p));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if(rm.length)await sb.storage.from('dishes').remove(rm);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>await load()</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>}catch(e){alert('Speichern fehlgeschlagen: '+e.message)}}</span></p>
+<p class="p1"><span class="s1">async function del(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>if(!confirm('Diesen Eintrag endgültig löschen?'))return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const ph=E.dishes.map(d=&gt;d.photo).filter(Boolean);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>if(ph.length)await sb.storage.from('dishes').remove(ph);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>const{error}=await sb.from('visits').delete().eq('id',E.id);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>error?alert(error.message):load()}</span></p>
+<p class="p1"><span class="s1">boot();</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span></p>
+</body>
+</html>
