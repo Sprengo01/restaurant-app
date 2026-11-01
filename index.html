@@ -63,7 +63,7 @@ nav .plus{width:64px;height:64px;border-radius:50%;background:var(--g);color:var
 <div id="app"></div>
 <nav id="nav" hidden>
 <button data-t="hist" onclick="go('hist')">Historie</button>
-<button class="plus" onclick="form()" aria-label="Neuer Besuch">+</button>
+<button class="plus" onclick="openForm()" aria-label="Neuer Besuch">+</button>
 <button data-t="map" onclick="go('map')">Karte</button>
 </nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -110,7 +110,7 @@ function hl(){
 function detail(id){
  const v=cur=V.find(x=>x.id==id);$('#nav').hidden=false;if(M){M.remove();M=null}scrollTo(0,0);
  const ds=[...v.dishes].sort((a,b)=>a.position-b.position);
- P(`<div class=top><button class=ic onclick="go(tab)">‹</button><button class=ic onclick="form(cur)" aria-label="Bearbeiten">✎</button></div>
+ P(`<div class=top><button class=ic onclick="go(tab)">‹</button><button class=ic onclick="openForm(cur)" aria-label="Bearbeiten">✎</button></div>
  <h1>${esc(v.name)}</h1><p class=sub>${fd(v.visit_date)} · ${esc(v.city||'–')} · Gesamt ${fmt(v.rating)}</p>
  ${v.lat!=null?`<a class=mut href="https://www.google.com/maps/search/?api=1&query=${v.lat},${v.lng}" target=_blank>In Google Maps öffnen</a>`:''}
  ${ds.map(d=>`<div class=dh><h2>${esc(d.name)}</h2><span class=badge>${fmt(d.rating)}</span></div>${d.photo?`<img class=d src="${url(d.photo)}">`:''}`).join('')}`)}
@@ -126,7 +126,7 @@ function mapV(){
  navigator.geolocation&&navigator.geolocation.getCurrentPosition(p=>{if(!M)return;const c=[p.coords.latitude,p.coords.longitude];M.setView(c,13);L.circleMarker(c,{radius:8,color:'#2C444C',weight:3,fillColor:'#fff',fillOpacity:1}).addTo(M)})}
 
 // ---------- Formular ----------
-function form(v){
+function openForm(v){
  const t=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
  E=v?{...v}:{name:'',visit_date:t,cuisine:'',city:'',lat:null,lng:null,rating:5};
  D=v?[...v.dishes].sort((a,b)=>a.position-b.position).map(d=>({...d})):[{name:'',rating:5}];
